@@ -1,0 +1,9 @@
+
+
+
+def make_csv_anotate(file_name):
+    f=open(filename,'r')
+
+
+
+make_csv_anotate('../twitter_analysis_test/research/1021_2_en_2.txt')
