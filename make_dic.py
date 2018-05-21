@@ -1,9 +1,10 @@
 
 #-*- encoding: utf-8 -*-
 import json
-import os,sys,time,json,requests
+import os,sys,time,json
 from collections import Counter
 
+#spam候補のユーザーを提案
 #user_f=open('../implement/user_from_1020_1022.txt','r')
 #https://gist.github.com/kkosuge/1272304
 #spam mailからdictionary作る
@@ -11,8 +12,9 @@ from collections import Counter
 dictionary=[]
 keys=[]
 dic_f=open('dictionary.txt','r')
-dic_word=dic_f.readline()#一行目はいらないので
+dic_word=dic_f.readline()#一行目はいらない
 dic_word=dic_f.readline()
+#common_wordの辞書を用意
 while dic_word:
     dic_word=dic_word[dic_word.find('\t')+1:]#一行の先頭にタブがある
     key=dic_word[dic_word.find('\t')+1:]
@@ -20,7 +22,7 @@ while dic_word:
     key=key[key.find('\t')+1:]
     key=key[:key.find('\n')]
     dictionary.append(dic_word)
-    keys.append(int(key))
+    keys.append(int(key)) #頻度
     #print key
     dic_word=dic_f.readline()
 
@@ -38,7 +40,8 @@ ex=[1,1,2,3]
 con=Counter(ex)
 print con.most_common()[0]
 '''
-def detect_spam(file_name): #リンク付きツイート
+def detect_spam(file_name):
+    #リンク付きツイート
     global use
     f=open(file_name,'r')
     line=f.readline()
@@ -49,10 +52,12 @@ def detect_spam(file_name): #リンク付きツイート
         rep_line=line[line.find('"in_reply_to_status_id": ')+25:]
         time_line=line[line.find('"timestamp_ms": "')+17:]
         if(len(time_line[:time_line.find('"')])>6):
+            #タイムスタンプの値に問題なければ
             times.append(int(time_line[:time_line.find('"')]))
         else:
             times.append(1)
         if link_line[:4]=='null':
+            #リンクがなければ
             users.append(use)
             links.append('')
         else:
@@ -60,9 +65,9 @@ def detect_spam(file_name): #リンク付きツイート
             link=link_line[:link_line.find('"')]
             users.append(use)
             links.append(link)
-            
-        if rep_line[:4]=='null':
-            texts.append('')#リプライなし
+
+        if rep_line[:4]=='null': #リプライがなければ
+            texts.append('')
             keyword_points.append(0)
         else:
             text=line[line.find('"text": "')+9:]#12
@@ -71,17 +76,13 @@ def detect_spam(file_name): #リンク付きツイート
             keyword_points.append(0)
             word_num=texts.count(' ')-1.0#簡易な単語数数え
             for word in range(0,len(dictionary)):
-                if text.find(dictionary[word])>0:
+                if text.find(dictionary[word])>0: #辞書の単語を1文字ずつ見ていく
                     keyword_points[len(keyword_points)-1]+=keys[word]
                 keyword_points[len(keyword_points)-1]=keyword_points[len(keyword_points)-1]/word_num
-        if use=='noufal_rifqi':
-            print text
-            
+
             #キーワードが文中にいくつあるか
         just_text.append(line[line.find('"text": "')+9:line.find('",')])
         line=f.readline()
-
-#1900ret scrnひとつめ"users"ふたつめretstatus
 
 #detect_spam('../twitter_analysis_test/research/1021_en_2.txt')
 detect_spam('../twitter_analysis_test/research/1021_2_en_2.txt')
@@ -108,12 +109,12 @@ result_tweet_with_link=[]
 result_keyword=[]
 for user in range(0,len(users)):
     if users[user] in passed_users:
+        #既にusersに登録済みのユーザーの場合、以下の処理は省略
         continue
     else:
-        if(links[user].find('.gov')>-1|links[user].find('.jp')>-1|links[user].find('.edu')>-1):### should be not ".gov." / or ''
+        if(links[user].find('.gov')>-1|links[user].find('.jp')>-1|links[user].find('.edu')>-1):
+            # should be not ".gov." / or ''
             domains.append(1)
-            #elif(link.find('.cm')>-1|link.find('.com')>-1|link.find('.cn')>-1):
-            # points.append(0.1)
         else:
             one_users.append(users[user])
             domains.append(0)
@@ -134,11 +135,11 @@ for user in range(0,len(users)):
         else:
             links_num.append(1)
             same_tweet_with_link.append('')
-                
+
         delete_rep=[]
         delete_link=[]
         for obj in range(user+1,len(users)-1):
-            if(users[user]==users[obj]):#ユーザーが重複
+            if(users[user]==users[obj]):#ユーザーが重複している場合
                 #print len(tweet_num)
                 tweet_num[len(tweet_num)-1]+=1
                 same_same_tweet.append(just_text[user])
@@ -186,7 +187,7 @@ for user in range(0,len(users)):
         result_tweet_with_link.append(with_result)
 
         result_keyword.append(sum(same_keyword))
-        
+
         delete=[]
         same_rep=[]
         same_link=[]
@@ -229,8 +230,8 @@ common4=counter4.
 common5=counter5.
 '''
 result=[]
-for word in result_keyword:
-    print word
+#for word in result_keyword:
+#    print word
 for i in range(100):
     #print one_users[link_points.index(max(link_points))]
     #print one_users[same_points.index(max(same_points))]
@@ -248,13 +249,14 @@ for i in range(100):
     rep_points[rep_points.index(max(rep_points))]=rep_points[rep_points.index(min(rep_points))]
     domain_points[domain_points.index(max(domain_points))]=domain_points[domain_points.index(min(domain_points))]
     result_time[result_time.index(min(result_time))]=result_time[result_time.index(max(result_time))]
-    
+
 
 print '\n'
-for j in range(100):
+for j in range(200):
 #(range 5)500:8件 400:3件
-#(range 100) 
+#(range 100)
     if one_users[result_keyword.index(max(result_keyword))] in result:
+        #結果のうち、特徴値が特に大きいものを表示
         print one_users[result_keyword.index(max(result_keyword))]
     result_keyword[result_keyword.index(max(result_keyword))]=result_keyword[result_keyword.index(min(result_keyword))]
 

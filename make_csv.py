@@ -4,6 +4,7 @@ import os,sys,time,json,requests,re
 from collections import Counter
 import csv
 
+#ダウンロードしたcommon_wordの辞書、ツイートのデータをcsvに書く
 #user_f=open('../implement/user_from_1020_1022.txt','r')
 #https://gist.github.com/kkosuge/1272304
 #spam mailからdictionary作る
@@ -19,7 +20,7 @@ for i in range(0,100):#while line:
     line=re.sub('["\'~+\-=_.,/%\?!;:@#\*&\(\)\\\]+','',line)
     dictionary.append(line)
     numeric.append('Numeric')
-    line=f.readline()    
+    line=f.readline()
 #ファイル一行目に'Numeric'と書き込む。二行目にdictionaryのword
 numeric.append('Category')
 dictionary.append('Class')

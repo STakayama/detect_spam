@@ -5,7 +5,7 @@ import os,sys,time,json,requests,re
 from collections import Counter
 
 #ツイートのデータ(改行されている)を読み込む
-#https://gist.github.com/kkosuge/1272304
+#python twitterで得られるツイートデータの構造：https://gist.github.com/kkosuge/1272304
 #spam mailからdictionary作る
 
 dictionary=[]
@@ -54,7 +54,7 @@ def detect_spam(file_name): #リンク付きツイート
             link=link_line[:link_line.find('"')]
             users.append(user_candidate)
             links.append(link)
-            
+
         if rep_line[:4]=='null':#リプライがない場合
             reply_texts.append('')
             keyword_points.append(0)
@@ -68,7 +68,7 @@ def detect_spam(file_name): #リンク付きツイート
                 if text.find(dictionary[word])>0:#ツイート内にdictionaryの中身があれば
                     keyword_points[len(keyword_points)-1]+=keys[word]
                 keyword_points[len(keyword_points)-1]=keyword_points[len(keyword_points)-1]/word_num#keyword_pointにはツイートの単語数に対するdictionary wordの出現率の和の割合を入れる
-            
+
             #just_texts...リプライを除いた普通のツイート
         just_text=line[line.find('"text": "')+9:line.find('",')]
         just_texts.append(just_text)
@@ -123,7 +123,7 @@ for user in range(0,len(users)-1):
         else:
             links_num.append(1)
             same_tweet_with_link.append('')
-                
+
         delete_rep=[]
         delete_link=[]
         for obj in range(user+1,len(users)-1):
@@ -175,7 +175,7 @@ for user in range(0,len(users)-1):
         result_tweet_with_link.append(with_result)
 
         result_keyword.append(sum(same_keyword))
-        
+
         delete=[]
         same_rep=[]
         same_link=[]
@@ -210,11 +210,6 @@ result=[]
 #for word in result_keyword:
  #   print word
 for i in range(100):
-    #print one_users[link_points.index(max(link_points))]
-    #print one_users[same_points.index(max(same_points))]
-    #print one_users[rep_points.index(max(rep_points))]
-    #print one_users[domain_points.index(max(domain_points))]
-    #print one_users[result_time.index(min(result_time))]
     result.append(passed_users[link_points.index(max(link_points))])
     result.append(passed_users[same_points.index(max(same_points))])
     result.append(passed_users[rep_points.index(max(rep_points))])
@@ -226,12 +221,10 @@ for i in range(100):
     rep_points[rep_points.index(max(rep_points))]=rep_points[rep_points.index(min(rep_points))]
     domain_points[domain_points.index(max(domain_points))]=domain_points[domain_points.index(min(domain_points))]
     result_time[result_time.index(min(result_time))]=result_time[result_time.index(max(result_time))]
-    
+
 
 print '\n'
 for j in range(20):
-#(range 5)500:8件 400:3件
-#(range 100) 
     if passed_users[result_keyword.index(max(result_keyword))] in result:
         print passed_users[result_keyword.index(max(result_keyword))]
     result_keyword[result_keyword.index(max(result_keyword))]=result_keyword[result_keyword.index(min(result_keyword))]
@@ -239,14 +232,3 @@ for j in range(20):
 #print link_points
 #print rep_points
 #print domain_points
-
-'''
-user_f=open('spam_user.txt','w')
-user_f2=open('spam_link.txt','w')
-for user in range(0,len(users)):
-    user_f.write(users[user]+'\n')
-    user_f2.write(links[user]+'\n')
-print users
-print links
-user_f.close()
-'''

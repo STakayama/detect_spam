@@ -1,8 +1,9 @@
 
 #-*- encoding: utf-8 -*-
-import os,sys,time,json,requests,re
+import os,sys,time,json,re
 from collections import Counter
 
+#common_word以外の言葉の辞書をツイートデータから作る
 #user_f=open('../implement/user_from_1020_1022.txt','r')
 #https://gist.github.com/kkosuge/1272304
 #spam mailからdictionary作る

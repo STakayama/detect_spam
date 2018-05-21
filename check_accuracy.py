@@ -5,17 +5,17 @@ def check_accuracy(file_name):
     texts=[]
     dic=[]
     spam_num=0
-    data_num=0 
+    data_num=0
     #spam_num/data_num...P(C=c)
-    #P(X1=x1|C=c)‚Í‚¾‚¢‚½‚¢0‚É‚È‚é‚Ì‚Å‚Í? (Še’PŒê‚Ìhow_many)/spam_num
+    #P(X1=x1|C=c)ã¯ã ã„ãŸã„0ã«ãªã‚‹ã®ã§ã¯? (å„å˜èªã®how_many)/spam_num
 
-    how_many=[]#spam‚ÅA‰½‰ñ’PŒê‚ªoŒ»‚µ‚½‚©
+    how_many=[]#spamã§ã€ä½•å›å˜èªãŒå‡ºç¾ã—ãŸã‹
     dic_f=open('not_common.txt','r')
     dic_line=dic_f.readline()
-    while dic_line:#dictionary‚ğ“Ç‚İ‚İ
+    while dic_line:#dictionaryã‚’èª­ã¿è¾¼ã¿
         dic.append(dic_line)
         dic_line=dic_f.readline()
-        
+
     with open(file_name,'r') as csv_f:
         reader=csv.reader(csv_f)
         #writer.writerrow()
@@ -23,20 +23,15 @@ def check_accuracy(file_name):
         data_num+=1
         #print line
 
-        #MI‚ª‚‚¢
-
-
+        #MIãŒé«˜ã„
         while line:
-            
-
-            if line[2]==1:#”»’è‚ªspam
+            if line[2]==1:#åˆ¤å®šãŒspam
                 spam_num+=1
-
-            for 
+            for
             line=f.readline()
 
 make_csv_anotate('../twitter_analysis_test/research/1021_2_en_2.txt')
 
 
-#P(X1=x1|C=c)...0‚Ì‚â‚Â‚Í
-#MI‚ª0‚É‚È‚éx‚ÍÁ‚·
+#P(X1=x1|C=c)...0ã®ã‚„ã¤ã¯
+#MIãŒ0ã«ãªã‚‹xã¯æ¶ˆã™
