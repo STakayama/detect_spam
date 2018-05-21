@@ -2,7 +2,7 @@
 This is an  attempt to detrect spams on twitter.  
 Refered http://ci.nii.ac.jp/naid/110009623087 and https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_action_common_download&item_id=151505&item_no=1&attribute_id=1&file_no=1  
 All of them are written in python2.7.  
-API:TwitterStreamAPI(python/twitter)
+API...TwitterStreamAPI(python/twitter)   
 Main program...detect_spam.py  
 Previous attempt...make_dic.py, new_dic.py  
 dictonary...not_common.txt(created using dictionary.txt(Word Frequencies in Written and Spoken English) and tweet data)  
